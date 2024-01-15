@@ -4,6 +4,8 @@ import { UsersService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from "@nestjs/config";
+import { User } from "./users/users.model";
+import { FlatsModule } from './flats/flats.module';
 
 
 @Module({
@@ -11,9 +13,11 @@ import { ConfigModule } from "@nestjs/config";
         ConfigModule.forRoot({
             envFilePath:`.${process.env.NODE_ENV}.env`
         }),
-        MongooseModule.forRoot(process.env.MongoDb_String), UsersModule],
-    providers: [UsersService],
-    controllers: [UsersController]
+    MongooseModule.forRoot(process.env.MongoDb_String),
+    UsersModule,
+    FlatsModule],
+    providers: [],
+    controllers: []
 })
 export class AppModule{
 
