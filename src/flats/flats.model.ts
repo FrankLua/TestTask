@@ -1,17 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { HydratedDocument } from 'mongoose';
+import { timeStamp } from 'console';
+import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
 
 
 export type FlatDocument = HydratedDocument<Flat>;
-@Schema({
-    timestamps:true
+@Schema({   
+  timestamps: false,  
+  versionKey: false
 })
 export class Flat { 
   
   @Prop()
-  id: string;
-
+  _id:mongoose.Types.ObjectId;
   @ApiProperty({example:3,description:'Номер'})
   @Prop()
   number: number;
@@ -20,7 +21,7 @@ export class Flat {
   rooms: number;
   @ApiProperty({example:27.3,description:'Площадь'})
   @Prop()
-  area: number;
+  area: String;
   @ApiProperty({example:181911.47,description:'Цена за квадратный метр'})
   @Prop()
   pricePerMeter: number;
@@ -29,7 +30,11 @@ export class Flat {
   floor: number;
   @ApiProperty({example:180000,description:'Общая цена'})
   @Prop()
-  prce: number;
+  prce: String;
+  @Prop()
+  createdAt:String
+  @Prop()  
+  updatedAt:String
 }
 
 export const flatSchema = SchemaFactory.createForClass(Flat);

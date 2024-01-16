@@ -22,35 +22,50 @@ export class FilterFlat{
     @ApiProperty({example:true,description:'Сортировка по площаде'})
     sortByArea:Boolean
     @ApiProperty({example:1,description:'Номер страницы'})
-    numberPage:number   
-    constructor(query:any){
-        this.rooms = Number.parseInt(query.rooms)
-        this.areaMin = Number.parseInt(query.areaMin)
-        this.areaMax = Number.parseInt(query.areaMax)
-        this.floorMin = Number.parseInt(query.floorMin )
-        this.floorMax = Number.parseInt(query.floorMax)
-        this.priceMin = Number.parseInt(query.priceMin)
-        this.priceMax = Number.parseInt(query.priceMax)
-        this.numberPage = Number.parseInt(query.numberPage)
+    numberPage:number  
+    public static fromByParams(minPrice:number,maxPrice:number,minArea:number,maxArea:number,minFloor:number,maxFloor:number):FilterFlat{
+        let reply = new FilterFlat()
+        reply.rooms = 1
+        reply.areaMin = minArea
+        reply.areaMax = maxArea
+        reply.floorMin = minFloor
+        reply.floorMax = maxFloor
+        reply.priceMin = minPrice
+        reply.priceMax = maxPrice
+        reply.sortByArea = false,
+        reply.sortByPrice = false
+        return reply;
+    }
+    public static fromByQuery(query:any):FilterFlat{
+        let reply = new FilterFlat()
+        reply.rooms = Number.parseInt(query.rooms)
+        reply.areaMin = Number.parseInt(query.areaMin)
+        reply.areaMax = Number.parseInt(query.areaMax)
+        reply.floorMin = Number.parseInt(query.floorMin )
+        reply.floorMax = Number.parseInt(query.floorMax)
+        reply.priceMin = Number.parseInt(query.priceMin)
+        reply.priceMax = Number.parseInt(query.priceMax)
+        reply.numberPage = Number.parseInt(query.numberPage)
         if(query.sortByPrice == 'true'){
-            this.sortByPrice = true;
+            reply.sortByPrice = true;
         }      
         else{
-            this.sortByPrice  = false;
+            reply.sortByPrice  = false;
         }
         if(query.sortByArea == 'true'){
-            this.sortByArea  = true;
+            reply.sortByArea  = true;
         }
         else{
-            this.sortByArea  = false;
-        }
-        
+            reply.sortByArea  = false;
+        } 
+        return reply;   
         
     }
+    
     public static sortingByArea(list:Flat[]):void {
-        list = list.sort((a,b)=>a.area-b.area)
+        list = list.sort((a,b)=>Number.parseInt((a.area).toString())-Number.parseInt((b.area).toString()))
     }
    public static sortingByPrice(list:Flat[]):void {
-        list = list.sort((a,b)=>a.prce-b.prce)
+        list = list.sort((a,b)=>Number.parseInt((a.prce).toString())-Number.parseInt((b.prce).toString()))
     }
 }

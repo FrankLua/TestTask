@@ -3,9 +3,10 @@ import { FlatsController } from './flats.controller';
 import { FlatsService } from './flats.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Flat,flatSchema } from './flats.model';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports:[        
+  imports:[AuthModule,      
     MongooseModule.forFeature([{ name: 'Flat', schema: flatSchema}])
 ],
   controllers: [FlatsController],

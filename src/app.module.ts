@@ -1,21 +1,22 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { UsersService } from './users/users.service';
-import { UsersController } from './users/users.controller';
-import { UsersModule } from './users/users.module';
-import { ConfigModule } from "@nestjs/config";
-import { User } from "./users/users.model";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+
 import { FlatsModule } from './flats/flats.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from "@nestjs/jwt";
 
 
 @Module({
     imports: [
+        
+        JwtModule,
         ConfigModule.forRoot({
             envFilePath:`.${process.env.NODE_ENV}.env`
         }),
-    MongooseModule.forRoot(process.env.MongoDb_String),
-    UsersModule,
-    FlatsModule],
+    MongooseModule.forRoot(process.env.MongoDb_String),    
+    FlatsModule,
+    AuthModule],
     providers: [],
     controllers: []
 })
